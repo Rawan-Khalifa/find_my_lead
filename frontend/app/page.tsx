@@ -126,13 +126,14 @@ export default function Dashboard() {
   }, [filters.tier, filters.stage, filters.minScore, filters.city, loadLeads])
 
   // Handle run pipeline
-  const handleRunPipeline = async () => {
+  const handleRunPipeline = async (zipCode: string, distance: number) => {
     setRunStage("scraping")
     try {
-      await triggerPipelineRun()
+      await triggerPipelineRun(zipCode, distance)
       setIsPipelineRunning(true)
+      toast.info(`Pipeline started for ZIP ${zipCode} within ${distance} mi`)
       setTimeout(() => setRunStage("enriching"), 2000)
-    } catch (error) {
+    } catch {
       setRunStage("idle")
       toast.error("Failed to start pipeline")
     }

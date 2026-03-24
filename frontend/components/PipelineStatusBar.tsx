@@ -1,8 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Play, Loader2 } from "lucide-react"
+import { useState } from "react"
+import { Play, Loader2, MapPin, Ruler } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { RoofIcon } from "./RoofIcon"
 import { timeSince } from "@/lib/api"
 import type { PipelineStatus } from "@/lib/types"
@@ -10,7 +11,7 @@ import type { PipelineStatus } from "@/lib/types"
 interface PipelineStatusBarProps {
   status: PipelineStatus | null
   totalLeads: number
-  onRunPipeline: () => Promise<void>
+  onRunPipeline: (zipCode: string, distance: number) => Promise<void>
   isRunning: boolean
   runStage: "idle" | "scraping" | "enriching" | "done"
 }
@@ -23,11 +24,14 @@ export function PipelineStatusBar({
   runStage,
 }: PipelineStatusBarProps) {
   const [isTriggering, setIsTriggering] = useState(false)
+  const [zipCode, setZipCode] = useState(status?.zip_code || "10013")
+  const [distance, setDistance] = useState(25)
 
   const handleRunClick = async () => {
+    if (!zipCode.match(/^\d{5}$/)) return
     setIsTriggering(true)
     try {
-      await onRunPipeline()
+      await onRunPipeline(zipCode, distance)
     } finally {
       setIsTriggering(false)
     }
@@ -107,14 +111,39 @@ export function PipelineStatusBar({
           )}
         </div>
 
-        {/* Right: Run Button */}
-        <Button
-          onClick={handleRunClick}
-          disabled={isTriggering || isRunning}
-          className="gap-2 bg-amber text-amber-950 hover:bg-amber/90"
-        >
-          {getButtonContent()}
-        </Button>
+        {/* Right: Target inputs + Run Button */}
+        <div className="flex items-center gap-2">
+          <div className="hidden items-center gap-1.5 sm:flex">
+            <div className="relative">
+              <MapPin className="absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                value={zipCode}
+                onChange={(e) => setZipCode(e.target.value.replace(/\D/g, "").slice(0, 5))}
+                placeholder="ZIP"
+                disabled={isTriggering || isRunning}
+                className="h-9 w-[100px] pl-7 bg-background border-border text-sm font-mono"
+              />
+            </div>
+            <div className="relative">
+              <Ruler className="absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                type="number"
+                value={distance}
+                onChange={(e) => setDistance(Math.max(1, Math.min(100, Number(e.target.value))))}
+                disabled={isTriggering || isRunning}
+                className="h-9 w-[80px] pl-7 bg-background border-border text-sm font-mono"
+              />
+            </div>
+            <span className="text-xs text-muted-foreground">mi</span>
+          </div>
+          <Button
+            onClick={handleRunClick}
+            disabled={isTriggering || isRunning || !zipCode.match(/^\d{5}$/)}
+            className="gap-2 bg-amber text-amber-950 hover:bg-amber/90"
+          >
+            {getButtonContent()}
+          </Button>
+        </div>
       </div>
     </header>
   )
