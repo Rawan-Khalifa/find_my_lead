@@ -179,7 +179,7 @@ async def research_contractor_web(
     or manual re-enrichment trigger.
     """
     api_key = os.getenv("PERPLEXITY_API_KEY")
-    model = os.getenv("PERPLEXITY_MODEL", "llama-3.1-sonar-large-128k-online")
+    model = os.getenv("PERPLEXITY_MODEL", "sonar")
 
     if not api_key:
         print(f"[enricher] No PERPLEXITY_API_KEY — skipping web research for {contractor.name}")
