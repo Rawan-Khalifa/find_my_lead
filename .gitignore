@@ -1,7 +1,11 @@
 .env
+.env*.local
 data/roofing_intel.db
 data/raw/
 __pycache__/
 .venv/
 *.pyc
 .cursorrules
+node_modules/
+.next/
+.DS_Store
