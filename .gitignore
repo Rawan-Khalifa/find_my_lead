@@ -1,0 +1,7 @@
+.env
+data/roofing_intel.db
+data/raw/
+__pycache__/
+.venv/
+*.pyc
+.cursorrules
