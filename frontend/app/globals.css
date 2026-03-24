@@ -1,0 +1,186 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+/* FindMyLead - Dark theme with warm amber accents */
+:root {
+  --background: #0f0f0f;
+  --foreground: #f1f5f9;
+  --card: #1a1d24;
+  --card-foreground: #f1f5f9;
+  --popover: #1a1d24;
+  --popover-foreground: #f1f5f9;
+  --primary: #f59e0b;
+  --primary-foreground: #0f0f0f;
+  --secondary: #3b82f6;
+  --secondary-foreground: #ffffff;
+  --muted: #111318;
+  --muted-foreground: #64748b;
+  --accent: #f59e0b;
+  --accent-foreground: #0f0f0f;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --success: #10b981;
+  --success-foreground: #ffffff;
+  --border: #2a2f3a;
+  --input: #1a1d24;
+  --ring: #f59e0b;
+  --radius: 0.625rem;
+  
+  /* Custom colors for the app */
+  --amber: #f59e0b;
+  --blue: #3b82f6;
+  --green: #10b981;
+  --red: #ef4444;
+  --slate: #64748b;
+  --gray: #374151;
+  --purple: #8b5cf6;
+  --surface: #1a1d24;
+  --surface-hover: #252a35;
+}
+
+@theme inline {
+  --font-sans: 'Geist', 'Geist Fallback';
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  
+  /* Custom app colors */
+  --color-amber: var(--amber);
+  --color-blue: var(--blue);
+  --color-green: var(--green);
+  --color-red: var(--red);
+  --color-slate: var(--slate);
+  --color-gray: var(--gray);
+  --color-purple: var(--purple);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Dot pattern background */
+.bg-dot-pattern {
+  background-image: radial-gradient(circle, #2a2f3a 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Animated ring for hot scores */
+@keyframes pulse-ring {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0);
+  }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2s ease-in-out infinite;
+}
+
+/* Staggered fade-in animation */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+/* Slide in from right */
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out forwards;
+}
+
+/* Confetti animation keyframes */
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100%) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.animate-confetti {
+  animation: confetti-fall 2s ease-out forwards;
+}
+
+/* Roof icon animation */
+@keyframes roof-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.animate-roof {
+  animation: roof-bounce 2s ease-in-out infinite;
+}
+
+/* Loading pulse for running pipeline */
+@keyframes status-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-status-pulse {
+  animation: status-pulse 1.5s ease-in-out infinite;
+}
